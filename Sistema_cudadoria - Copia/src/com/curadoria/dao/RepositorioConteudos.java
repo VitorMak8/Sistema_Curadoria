@@ -10,7 +10,7 @@ public class RepositorioConteudos {
     // --- 1. ADICIONAR RECURSO ---
     public static boolean adicionar(Recurso r) {
         String sql = "INSERT INTO recursos (titulo, autor, categoria, tipo, cadastradoPor) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, r.titulo);
@@ -32,7 +32,7 @@ public class RepositorioConteudos {
         List<Recurso> lista = new ArrayList<>();
         String sql = "SELECT * FROM recursos ORDER BY titulo ASC";
 
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -55,7 +55,7 @@ public class RepositorioConteudos {
     // --- 3. EXCLUIR (Pelo ID) ---
     public static void excluir(int id) {
         String sql = "DELETE FROM recursos WHERE id=?";
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

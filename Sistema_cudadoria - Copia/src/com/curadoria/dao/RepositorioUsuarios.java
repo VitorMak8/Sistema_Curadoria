@@ -10,7 +10,7 @@ public class RepositorioUsuarios {
     // --- 1. LOGIN (Busca por usuário e senha ativos) ---
     public static Usuario login(String user, String senha) {
         String sql = "SELECT * FROM usuarios WHERE username = ? AND senha = ? AND ativo = TRUE";
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, user);
@@ -30,7 +30,7 @@ public class RepositorioUsuarios {
     // --- 2. ADICIONAR (INSERT) ---
     public static boolean adicionar(Usuario u) {
         String sql = "INSERT INTO usuarios (username, senha, nome, idade, tipo, ativo, interesse1, interesse2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, u.username);
@@ -56,7 +56,7 @@ public class RepositorioUsuarios {
         List<Usuario> lista = new ArrayList<>();
         String sql = "SELECT * FROM usuarios";
 
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -72,7 +72,7 @@ public class RepositorioUsuarios {
     // --- 4. ATUALIZAR DADOS (UPDATE) ---
     public static void atualizar(Usuario u) {
         String sql = "UPDATE usuarios SET nome=?, idade=?, tipo=?, interesse1=?, interesse2=? WHERE id=?";
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, u.nome);
@@ -91,7 +91,7 @@ public class RepositorioUsuarios {
     // --- 5. ALTERAR STATUS (Ativar/Inativar) ---
     public static void alterarStatus(int id, boolean ativo) {
         String sql = "UPDATE usuarios SET ativo=? WHERE id=?";
-        try (Connection conn = ConexaoFactory.conectar();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBoolean(1, ativo);
             stmt.setInt(2, id);

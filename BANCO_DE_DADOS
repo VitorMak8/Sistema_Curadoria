@@ -1,0 +1,41 @@
+CREATE DATABASE  sistema_curadoria;
+USE sistema_curadoria;
+
+-- ==================================
+-- TABELA DE USUÁRIOS
+-- ==================================
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(100) NOT NULL,
+    nome VARCHAR(120) NOT NULL,
+    idade INT NOT NULL,
+    tipo ENUM('ADMIN', 'COMUM') NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE,
+
+    interesse1 ENUM('IA Responsável','Cibersegurança','Privacidade & Ética Digital') NOT NULL,
+    interesse2 ENUM('IA Responsável','Cibersegurança','Privacidade & Ética Digital') NOT NULL
+);
+
+-- Admin obrigatório
+INSERT INTO usuarios (username, senha, nome, idade, tipo, ativo, interesse1, interesse2)
+VALUES ('admin', '123', 'Administrador Sistema', 30, 'ADMIN', TRUE, 'IA Responsável', 'Cibersegurança');
+
+
+-- ==================================
+-- TABELA DE RECURSOS
+-- ==================================
+CREATE TABLE recursos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(200) NOT NULL,
+    autor VARCHAR(150) NOT NULL,
+    categoria ENUM('IA Responsável','Cibersegurança','Privacidade & Ética Digital') NOT NULL,
+    tipo ENUM('Artigo','Curso','Vídeo','Podcast') NOT NULL,
+    cadastradoPor VARCHAR(50) NOT NULL,
+    FOREIGN KEY (cadastradoPor) REFERENCES usuarios(username)
+);
+
+
+
+
+
